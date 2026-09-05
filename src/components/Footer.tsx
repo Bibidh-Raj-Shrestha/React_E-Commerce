@@ -3,7 +3,7 @@ import { RiVisaFill,RiMastercardFill,RiPaypalFill,RiInstagramFill,RiFacebookFill
 export default function Footer(){
     return(<>
         <footer className="hidden lg:flex justify-around w-[90%] [&_h2]:font-semibold ">
-            <div>
+            <div className="[&_p]:cursor-pointer">
                 <h2>Customer Care</h2>
                 <p className="hover:underline">Help Center</p>
                 <p className="hover:underline">How to Buy</p>
@@ -14,7 +14,7 @@ export default function Footer(){
                 <h2>
                     Payment Methods
                 </h2>
-                <div className="flex gap-5">
+                <div className="flex gap-5 cursor-pointer">
                     <RiVisaFill/>
                     <RiMastercardFill/>
                     <RiPaypalFill/>
@@ -22,7 +22,7 @@ export default function Footer(){
             </div>
             <div>
                 <h2>Follow Us</h2>
-                <div className="flex gap-5">
+                <div className="flex gap-5 cursor-pointer">
                     <RiFacebookFill color="blue"/>
                     <RiInstagramFill/>
                     <RiYoutubeFill color="red"/>

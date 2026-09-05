@@ -28,13 +28,13 @@ export default function Banner() {
                     <div className="relative w-full shrink-0" key={banner.id}>
                         <button className="absolute text-white h-full"
                             onClick={() => setCurrent((prev) => prev === 0 ? banners.length - 1 : prev - 1)}>
-                                <span className="block bg-gray-400 rounded-full p-1">
+                                <span className="block bg-gray-400 rounded-full p-1 cursor-pointer">
                                     <RiArrowLeftLine />
                                 </span>
                         </button>
                         <button className="absolute text-white h-full right-0 "
                             onClick={() => setCurrent((prev) => prev === banners.length - 1 ? 0 : prev + 1)}>
-                                <span className="block bg-gray-400 rounded-full p-1">
+                                <span className="block bg-gray-400 rounded-full p-1 cursor-pointer">
                                     <RiArrowRightLine />
                                 </span>
                         </button>

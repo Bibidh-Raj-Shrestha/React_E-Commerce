@@ -9,7 +9,7 @@ interface ProductCardProps {
 export default function ProductCard({ product }: ProductCardProps) {
     const navigate = useNavigate();
     return (<>
-        <div className="border lg:h-90 w-full rounded-2xl flex flex-col justify-evenly cursor-pointer 
+        <div className="border lg:h-95 w-full rounded-2xl flex flex-col justify-evenly cursor-pointer 
                         hover:shadow-2xl p-2 "
                         onClick={()=>navigate(`/products/${product.id}`)}>
             <img src={product.images[0]} alt="asd" />

@@ -2,15 +2,16 @@ import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import ProductCard from "./ProductCard";
 
-import type {Product} from "./types";
+import type { Product } from "./types";
 
 export default function ProductGrid() {
 
     const [searchParams] = useSearchParams();
     const query = searchParams.get("query") || "";
+    const category = searchParams.get("category") || "";
 
-    
 
+    const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
     const [products, setProducts] = useState<Product[]>([]);
     const [visibleCount, setVisibleCount] = useState(12);
 
@@ -25,9 +26,21 @@ export default function ProductGrid() {
         }
         getProduct();
     }, []);
-    const filteredProducts = products.filter((product) =>
-        product.title.toLowerCase().includes(query.toLowerCase())
-    );
+
+    useEffect(() => {
+        let newProducts = products;
+        if (query) {
+            newProducts = newProducts.filter((product) =>
+                product.title.toLowerCase().includes(query.toLowerCase())
+            );
+        }
+        if (category) {
+            newProducts = newProducts.filter((product) =>
+                product.category === category
+            );
+        }
+        setFilteredProducts(newProducts);
+    }, [products, query, category]);
     return (<>
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 w-full 
                     place-contents-center mt-8 mb-10">
@@ -39,7 +52,7 @@ export default function ProductGrid() {
         </div>
         <div className="w-full flex justify-center ">
             <button
-                className="border p-3 text-2xl w-2xl font-semibold cursor-pointer"
+                className="border p-3 text-2xl w-2xl font-semibold cursor-pointer bg-blue-50 hover:bg-blue-100"
                 onClick={() => setVisibleCount(prev => prev + 12)}>
                 Load More
             </button>

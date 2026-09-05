@@ -16,12 +16,14 @@ export default function Navbar() {
                 <NavLink to="/products" className="hover:bg-gray-400 p-2 rounded-2xl">Products</NavLink>
                 <NavLink to="/categories" className="hover:bg-gray-400 p-2 rounded-2xl">Categories</NavLink>
             </nav>
-            <div className="flex gap-5 pr-2 lg:pr-4">
+            <div className="flex gap-5 pr-2 lg:pr-4 items-center">
                 <div className="group cursor-pointer flex justify-center items-center">
                     <RiShoppingCart2Line className="block group-hover:hidden" />
                     <RiShoppingCart2Fill className="hidden group-hover:block" />
                 </div>
-                <span className="hidden lg:block">PFP</span>
+                <span className="hidden lg:block">
+                    <RiUser2Line/>
+                </span>
             </div>
         </header>
 
