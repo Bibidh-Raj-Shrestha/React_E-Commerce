@@ -15,3 +15,9 @@ export interface Product {
     returnPolicy: string;
     warrantyInformation: string;
 }
+export interface ProductResponse {
+    products: Product[];
+    total: number;
+    skip: number;
+    limit: number;
+}

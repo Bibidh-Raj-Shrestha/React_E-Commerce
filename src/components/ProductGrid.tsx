@@ -2,61 +2,92 @@ import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import ProductCard from "./ProductCard";
 
-import type { Product } from "./types";
+import type { Product, ProductResponse } from "./types";
 
 export default function ProductGrid() {
+    const API = import.meta.env.VITE_API_URL;
+    const limit = 12;
 
     const [searchParams] = useSearchParams();
+
     const query = searchParams.get("query") || "";
     const category = searchParams.get("category") || "";
 
-
-    const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
     const [products, setProducts] = useState<Product[]>([]);
-    const [visibleCount, setVisibleCount] = useState(12);
+    const [skip, setSkip] = useState(0);
+    const [hasMore, setHasMore] = useState(true);
+
+    useEffect(() => {
+        setProducts([]);
+        setSkip(0);
+        setHasMore(true);
+    }, [query, category]);
 
     useEffect(() => {
         async function getProduct() {
-            const request = await fetch("http://localhost:3000/products");
-            if (!request.ok) {
-                console.log("error");
+            try {
+                let url = "";
+
+                if (category) {
+                    url = `${API}/products/category/${category}?limit=${limit}&skip=${skip}`;
+                } else if (query) {
+                    url = `${API}/products/search?q=${query}&limit=${limit}&skip=${skip}`;
+                } else {
+                    url = `${API}/products?limit=${limit}&skip=${skip}`;
+                }
+
+                const request = await fetch(url);
+
+                if (!request.ok) {
+                    throw new Error("Failed to fetch products");
+                }
+
+                const data: ProductResponse = await request.json();
+
+                setProducts(prev => {
+                    // Prevent duplicate products after filter changes
+                    if (skip === 0) {
+                        return data.products;
+                    }
+
+                    return [...prev, ...data.products];
+                });
+
+                setHasMore(skip + data.products.length < data.total);
+
+            } catch (error) {
+                console.log(error);
             }
-            const data: Product[] = await request.json();
-            setProducts(data);
         }
+
         getProduct();
-    }, []);
+    }, [API, skip, query, category]);
 
-    useEffect(() => {
-        let newProducts = products;
-        if (query) {
-            newProducts = newProducts.filter((product) =>
-                product.title.toLowerCase().includes(query.toLowerCase())
-            );
-        }
-        if (category) {
-            newProducts = newProducts.filter((product) =>
-                product.category === category
-            );
-        }
-        setFilteredProducts(newProducts);
-    }, [products, query, category]);
-    return (<>
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 w-full 
-                    place-contents-center mt-8 mb-10">
-            {
-                filteredProducts.slice(0, visibleCount).map((product) => (
-                    <ProductCard product={product} />
-                ))
-            }
-        </div>
-        <div className="w-full flex justify-center ">
-            <button
-                className="border p-3 text-2xl w-2xl font-semibold cursor-pointer bg-blue-50 hover:bg-blue-100"
-                onClick={() => setVisibleCount(prev => prev + 12)}>
-                Load More
-            </button>
-        </div>
+    return (
+        <>
+            <div
+                className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4
+                            gap-5 w-full place-content-center mt-8 mb-10"
+            >
+                {products.map((product) => (
+                    <ProductCard
+                        key={product.id}
+                        product={product}
+                    />
+                ))}
+            </div>
 
-    </>)
+            <div className="w-full flex justify-center">
+                {hasMore && (
+                    <button
+                        className="border p-3 text-2xl w-2xl font-semibold
+                                    cursor-pointer bg-blue-50 hover:bg-blue-100"
+                        onClick={() => setSkip(prev => prev + limit)}
+                    >
+                        Load More
+                    </button>
+                )}
+            </div>
+        </>
+    );
 }

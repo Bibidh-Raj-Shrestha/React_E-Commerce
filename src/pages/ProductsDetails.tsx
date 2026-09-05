@@ -8,6 +8,7 @@ import type { Product } from "../components/types";
 
 
 export default function ProductsDetails() {
+    const API = import.meta.env.VITE_API_URL;
     const { id } = useParams();
     const [product, setProduct] = useState<Product>();
     const [error, setError] = useState<string | null>(null);
@@ -15,7 +16,7 @@ export default function ProductsDetails() {
     useEffect(() => {
         async function getProduct() {
             try {
-                const request = await fetch(`http://localhost:3000/products/${id}`);
+                const request = await fetch(`${API}/products/${id}`);
                 if (!request.ok) {
                     throw new Error("Failed to fetch the product");
                 }

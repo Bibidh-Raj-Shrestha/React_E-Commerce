@@ -1,18 +1,20 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import type { ProductResponse } from "../components/types";
 
 export default function Categories() {
+    const API = import.meta.env.VITE_API_URL;
     const navigate = useNavigate();
     const [categories, setCategories] = useState<string[]>([]);
 
     useEffect(() => {
         async function getCategories() {
-            const request = await fetch("http://localhost:3000/products");
+            const request = await fetch(`${API}/products?limit=0`);
             if (!request.ok) {
                 throw new Error("Failed to fetch categories");
             }
-            const data: { category: string }[] = await request.json();
-            const categoryList = data.map((product) => {
+            const data: ProductResponse = await request.json();
+            const categoryList = data.products.map((product) => {
                 return product.category;
             });
             const uniqueCategories = [...new Set(categoryList)];
