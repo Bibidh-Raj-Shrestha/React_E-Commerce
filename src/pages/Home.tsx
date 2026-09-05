@@ -8,7 +8,10 @@ export default function Home() {
     return (
         <>
                 <Banner/>
-                <Search/>
+                <div className="hidden lg:block lg:w-full">
+                    <Search/>
+                </div>
+                
                 <ProductGrid/>
         </>
     );

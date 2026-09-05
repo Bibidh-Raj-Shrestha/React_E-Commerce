@@ -2,7 +2,7 @@ import { RiVisaFill,RiMastercardFill,RiPaypalFill,RiInstagramFill,RiFacebookFill
 
 export default function Footer(){
     return(<>
-        <footer className="flex justify-around w-[90%] [&_h2]:font-semibold ">
+        <footer className="hidden lg:flex justify-around w-[90%] [&_h2]:font-semibold ">
             <div>
                 <h2>Customer Care</h2>
                 <p className="hover:underline">Help Center</p>

@@ -31,7 +31,7 @@ export default function ProductsDetails() {
     if (product === undefined)
         return (<>Product not found</>);
     return (<>
-        <div className="flex flex-col lg:flex-row gap-8 mt-10 p-4 border rounded-xl">
+        <div className="flex flex-col lg:w-[78%] lg:flex-row gap-8 mt-10 p-4 border rounded-xl">
             <div>
                 <img src={product.images[0]}
                     alt={product.title}

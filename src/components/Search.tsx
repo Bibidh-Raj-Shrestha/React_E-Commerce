@@ -20,15 +20,15 @@
 
         return(<>
             <form onSubmit={searchHandler}
-                className="w-full flex mt-3">
+                className="lg:w-full flex mt-3  ">
                 <input type="search"
-                    className="w-full border text-2xl p-2"
+                    className="w-full border lg:text-2xl p-2"
                     value={query}
                     placeholder="search.."
                     onChange={(e)=>setQuery(e.target.value)}/>
                 <button className="border p-2 cursor-pointer"
                     type="submit">
-                    <RiSearch2Line size={40}/>
+                    <RiSearch2Line/>
                 </button>
             </form>
             

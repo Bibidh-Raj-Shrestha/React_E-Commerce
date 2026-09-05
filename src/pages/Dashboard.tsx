@@ -6,7 +6,7 @@ export default function Dashboard(){
     return(<>  
     <div className="flex flex-col items-center">
         <Navbar/>
-        <main className="flex flex-col items-center justify-center w-[70%] mt-15">
+        <main className="flex flex-col items-center justify-center w-[90%] lg:w-[70%] mt-15">
             <Outlet/>    
         </main>
         <footer className=" flex justify-center w-full mt-10 pb-5 pt-2 bg-gray-200">

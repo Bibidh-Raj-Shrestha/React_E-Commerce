@@ -10,7 +10,7 @@ interface RatingStarsProps {
 
 export default function RatingStars({ rating }: RatingStarsProps) {
     return (
-        <div className="flex">
+        <div className="flex size-[80%]">
             {Array.from({ length: 5 }).map((_, index) => {
                 const starNumber = index + 1;
 

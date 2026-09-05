@@ -29,8 +29,8 @@ export default function ProductGrid() {
         product.title.toLowerCase().includes(query.toLowerCase())
     );
     return (<>
-        <div className="grid  grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 w-full 
-                    place-contents-center mt-5 mb-10">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 w-full 
+                    place-contents-center mt-8 mb-10">
             {
                 filteredProducts.slice(0, visibleCount).map((product) => (
                     <ProductCard product={product} />

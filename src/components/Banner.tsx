@@ -23,8 +23,7 @@ export default function Banner() {
             <div className="flex transition-transform duration-800 ease-in-out"
                 style={{
                     transform: `translateX(-${current * 100}%)`
-                }}
-            >
+                }}>
                 {banners.map((banner) => (
                     <div className="relative w-full shrink-0" key={banner.id}>
                         <button className="absolute text-white h-full"
@@ -49,11 +48,11 @@ export default function Banner() {
 
                         <div className="absolute bottom-10 left-5 flex flex-col justify-center p-2
                                         bg-black/20 rounded-2xl backdrop-blur-md">
-                            <h2 className="text-5xl font-bold text-white">
+                            <h2 className="text-2xl lg:text-3xl font-bold text-white">
                                 {banner.title}
                             </h2>
 
-                            <p className="mt-3 text-xl text-white">
+                            <p className="mt-3  lg:text-xl text-white">
                                 {banner.subtitle}
                             </p>
 
