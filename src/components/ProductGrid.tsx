@@ -45,7 +45,6 @@ export default function ProductGrid() {
                 const data: ProductResponse = await request.json();
 
                 setProducts(prev => {
-                    // Prevent duplicate products after filter changes
                     if (skip === 0) {
                         return data.products;
                     }
