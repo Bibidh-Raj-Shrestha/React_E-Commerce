@@ -24,7 +24,6 @@ export default function ProductGrid() {
             }
             const data: Product[] = await request.json();
             setProducts(data);
-            console.log(data);
         }
         getProduct();
     }, []);

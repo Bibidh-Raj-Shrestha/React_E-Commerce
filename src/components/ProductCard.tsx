@@ -1,4 +1,5 @@
 import { RiStarFill, RiStarHalfFill, RiStarLine } from "@remixicon/react";
+import { useNavigate } from "react-router-dom";
 interface Product {
     id: number;
     title: string;
@@ -13,10 +14,11 @@ interface ProductCardProps {
 }
 
 export default function ProductCard({ product }: ProductCardProps) {
-
+    const navigate = useNavigate();
     return (<>
         <div className="border h-90 w-full rounded-2xl flex flex-col justify-evenly cursor-pointer hover:shadow-2xl
-                        p-2">
+                        p-2"
+            onClick={()=>navigate(`/products/${product.id}`)}>
             <img src={product.images[0]} alt="asd" />
             <div className="pl-2">
                 <span className="">
@@ -24,7 +26,7 @@ export default function ProductCard({ product }: ProductCardProps) {
                 </span>
                 <div>
                     <span className="text-2xl">
-                        Rs. {product.price}
+                        Rs. {((product.price*140)*(1-product.discountPercentage/100)).toFixed(0)}
                     </span>
 
                     <span className="text-gray-500">
