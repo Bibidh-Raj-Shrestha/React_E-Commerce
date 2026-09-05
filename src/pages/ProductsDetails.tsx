@@ -28,10 +28,12 @@ export default function ProductsDetails() {
         getProduct();
     }, [id]);
 
+    if (error)
+        return (<>Error:{error}</>)
     if (product === undefined)
-        return (<>Product not found</>);
+        return (<>Loading..</>);
     return (<>
-        <div className="flex flex-col lg:w-[78%] lg:flex-row gap-8 mt-10 p-4 border rounded-xl">
+        <div className="w-full flex flex-col lg:w-[78%] lg:flex-row gap-8 mt-10 p-4 border rounded-xl">
             <div>
                 <img src={product.images[0]}
                     alt={product.title}
@@ -94,9 +96,9 @@ export default function ProductsDetails() {
             </div>
         </div>
         <div className="w-full lg:w-[78%] flex flex-col mt-10 p-2 border rounded-xl">
-            <span>
-                <h2>Reviews</h2>
-            </span>
+            <h2 className="text-2xl font-semibold">
+                Reviews
+            </h2>
             <div className="flex flex-col">
                 {product.reviews.map((review, index) => (
                     <ReviewCard key={index} review={review} />
