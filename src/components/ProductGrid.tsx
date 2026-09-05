@@ -2,15 +2,7 @@ import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import ProductCard from "./ProductCard";
 
-interface Product {
-    id: number;
-    title: string;
-    price: number;
-    category: string;
-    images: string[];
-    rating: number;
-    discountPercentage: number;
-}
+import type {Product} from "./types";
 
 export default function ProductGrid() {
 

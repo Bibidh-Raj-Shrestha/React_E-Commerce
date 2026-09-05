@@ -1,14 +1,8 @@
 import { RiStarFill, RiStarHalfFill, RiStarLine } from "@remixicon/react";
 import { useNavigate } from "react-router-dom";
-interface Product {
-    id: number;
-    title: string;
-    price: number;
-    category: string;
-    images: string[];
-    rating: number;
-    discountPercentage: number;
-}
+import type {Product} from "./types";
+import RatingStars from "./RatingStar";
+
 interface ProductCardProps {
     product: Product;
 }
@@ -35,24 +29,7 @@ export default function ProductCard({ product }: ProductCardProps) {
                 </div>
                 <div>
                     <div className="flex">
-                        {Array.from({ length: 5 }).map((_, index) => {
-                            const starNumber = index + 1;
-
-                            if (product.rating >= starNumber) {
-                                return <span key={index}>
-                                    <RiStarFill color="gold" />
-                                </span>;
-                            }
-                            if (product.rating >= starNumber - 0.5) {
-                                return <span key={index}>
-                                    <RiStarHalfFill color="gold" />
-                                </span>;
-                            }
-
-                            return <span key={index}>
-                                <RiStarLine color="gold" />
-                            </span>;
-                        })}
+                        <RatingStars rating={product.rating}/>
                     </div>
                 </div>
             </div>
