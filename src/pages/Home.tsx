@@ -7,11 +7,9 @@ export default function Home() {
 
     return (
         <>
-            <main className="w-[70%] mt-1">
                 <Banner/>
                 <Search/>
                 <ProductGrid/>
-            </main>
         </>
     );
 }

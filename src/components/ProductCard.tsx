@@ -15,7 +15,8 @@ interface ProductCardProps {
 export default function ProductCard({ product }: ProductCardProps) {
 
     return (<>
-        <div className="border h-90 w-full rounded-2xl flex flex-col justify-evenly">
+        <div className="border h-90 w-full rounded-2xl flex flex-col justify-evenly cursor-pointer hover:shadow-2xl
+                        p-2">
             <img src={product.images[0]} alt="asd" />
             <div className="pl-2">
                 <span className="">

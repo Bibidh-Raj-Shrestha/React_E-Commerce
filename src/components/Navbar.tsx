@@ -3,7 +3,7 @@ import { RiShoppingCart2Fill, RiShoppingCart2Line } from "@remixicon/react";
 
 export default function Navbar(){
     return(<>
-        <header className="flex justify-between border-b p-3 w-full ">
+        <header className="fixed top-0 left-0 w-full z-50 flex justify-between border-b p-3 bg-white">
             <div className="">
                 <h1 className="">logo</h1>
             </div>
