@@ -72,15 +72,15 @@ export default function ProductsDetails() {
                 </div>
 
                 <div className="text-xl flex flex-col gap-2">
-                    <div className="flex">
+                    <div className="flex gap-2">
                         <RiCashFill />
                         <span>Cash on delivery available</span>
                     </div>
-                    <div className="flex">
+                    <div className="flex gap-2">
                         <RiRestartLine />
                         <span>{product.returnPolicy}</span>
                     </div>
-                    <div className="flex">
+                    <div className="flex gap-2">
                         <RiShieldLine />
                         <span>{product.warrantyInformation}</span>
                     </div>

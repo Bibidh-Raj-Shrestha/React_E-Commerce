@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import ProductCard from "./ProductCard";
 
 interface Product {
@@ -12,6 +13,11 @@ interface Product {
 }
 
 export default function ProductGrid() {
+
+    const [searchParams] = useSearchParams();
+    const query = searchParams.get("query") || "";
+
+    
 
     const [products, setProducts] = useState<Product[]>([]);
     const [visibleCount, setVisibleCount] = useState(12);
@@ -27,11 +33,14 @@ export default function ProductGrid() {
         }
         getProduct();
     }, []);
+    const filteredProducts = products.filter((product) =>
+        product.title.toLowerCase().includes(query.toLowerCase())
+    );
     return (<>
         <div className="grid  grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 w-full 
                     place-contents-center mt-5 mb-10">
             {
-                products.slice(0, visibleCount).map((product) => (
+                filteredProducts.slice(0, visibleCount).map((product) => (
                     <ProductCard product={product} />
                 ))
             }
