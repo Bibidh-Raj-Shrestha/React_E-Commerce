@@ -20,8 +20,25 @@ function CartProvider({ children }: { children: React.ReactNode }) {
     const [cartProducts, setCartProducts] = useState<CartItem[]>([]);
 
     function addToCart({ product, quantity }: CartItem) {
-        quantity = (quantity === 0) ? quantity + 1 : quantity;
-        setCartProducts(prev => [...prev, { product, quantity }]);
+        quantity = quantity === 0 ? 1 : quantity;
+
+        setCartProducts(prev => {
+            const existingItem = prev.find(
+                item => item.product.id === product.id
+            );
+            if (existingItem) {
+                return prev.map(item =>
+                    item.product.id === product.id
+                        ? {
+                            ...item,
+                            quantity: item.quantity + quantity
+                        }
+                        : item
+                );
+            }
+
+            return [...prev, { product, quantity }];
+        });
     }
 
     // function removeFromCart(id: number) {
@@ -44,7 +61,7 @@ function CartProvider({ children }: { children: React.ReactNode }) {
         setCartProducts(prev =>
             prev.map(item => {
                 return item.product.id == id ?
-                    { ...item, quantity: Math.max(1,item.quantity - 1) } : item;
+                    { ...item, quantity: Math.max(1, item.quantity - 1) } : item;
             }))
     }
 

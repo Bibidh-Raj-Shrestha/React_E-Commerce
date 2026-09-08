@@ -34,6 +34,20 @@ export default function ProductsDetails() {
         getProduct();
     }, [id]);
 
+    const [showPopup, setShowPopup] = useState(false);
+
+    // your existing product logic...
+
+    function handleAddToCart() {
+        if (!product) return;
+        addToCart({product, quantity});
+        setShowPopup(true);
+        setTimeout(() => {
+            setShowPopup(false);
+        }, 1500);
+        
+    }
+
     if (error)
         return (<>Error:{error}</>)
     if (product === undefined)
@@ -103,9 +117,24 @@ export default function ProductsDetails() {
                         </button>
                         <button className="w-full sm:w-50 text-xl lg:p-3 font-semibold cursor-pointer 
                                     bg-orange-300 hover:bg-orange-400"
-                                onClick={()=>addToCart({product,quantity})}>
+                                onClick={handleAddToCart}>
                             Add to Cart
                         </button>
+                        <div
+                            className={`
+                                fixed top-20 right-5
+                                bg-black text-white
+                                px-5 py-3 rounded-xl shadow-lg
+                                transition-all duration-300
+                                ${
+                                    showPopup
+                                        ? "opacity-100 translate-x-0"
+                                        : "opacity-0 translate-x-10 pointer-events-none"
+                                }
+                            `}
+                        >
+                            Item added to cart
+                        </div>
                     </div>
                 </div>
 

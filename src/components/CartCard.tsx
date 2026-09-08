@@ -1,42 +1,48 @@
 import { useContext } from "react";
-import CartContext from "../components/CartContext"
-
+import CartContext from "../components/CartContext";
 import QuantityCounter from "./QuantityCounter";
-
 import type { CartItem } from "./types";
 
-export default function CartCard({product,quantity}:CartItem){
-    const { increaseCart,decreaseCart} = useContext(CartContext)!;
-    return(<>
-        <div className="flex items-center gap-6 border rounded-2xl p-5 w-full max-w-4xl">
-            <img
-                src={product.images[0]}
-                alt={product.title}
-                className="w-40 h-40 object-contain rounded-xl"
-            />
-            <div className="flex flex-col justify-between min-h-40 flex-1">
+export default function CartCard({ product, quantity }: CartItem) {
+    const { increaseCart, decreaseCart } = useContext(CartContext)!;
 
-                <div>
-                    <p className="text-lg font-semibold">
-                        {product.title}
-                    </p>
+    return (
+        <div className="mb-5 flex flex-col sm:flex-row items-center gap-5 border rounded-2xl p-4 w-full max-w-4xl">
 
-                    <p className="text-xl font-bold mt-2">
-                        ${product.price}
-                    </p>
-                </div>
+            {/* Product Image */}
+            <div className="shrink-0">
+                <img
+                    src={product.images[0]}
+                    alt={product.title}
+                    className="w-32 h-32 sm:w-36 sm:h-36 object-contain rounded-xl"
+                />
+            </div>
+
+            {/* Product Information */}
+            <div className="flex flex-col flex-1 w-full sm:w-auto">
+
+                <p className="text-lg font-semibold line-clamp-2">
+                    {product.title}
+                </p>
+
+                <p className="text-xl font-bold mt-2">
+                    ${product.price}
+                </p>
 
                 <div className="mt-4">
-                    <QuantityCounter quantity={quantity}
-                                    onIncrease={()=>increaseCart(product.id)}
-                                    onDecrease={()=>decreaseCart(product.id)}/>
+                    <QuantityCounter
+                        quantity={quantity}
+                        onIncrease={() => increaseCart(product.id)}
+                        onDecrease={() => decreaseCart(product.id)}
+                    />
                 </div>
 
             </div>
 
-            <div className="flex flex-col items-end justify-between min-h-40">
+            {/* Total + Buy */}
+            <div className="flex sm:flex-col items-center sm:items-end justify-between gap-4 w-full sm:w-auto">
 
-                <div className="text-right">
+                <div className="text-left sm:text-right">
                     <p className="text-sm text-gray-500">
                         Total
                     </p>
@@ -46,12 +52,12 @@ export default function CartCard({product,quantity}:CartItem){
                     </p>
                 </div>
 
-                <button className="bg-black text-white px-6 py-2 rounded-xl hover:bg-gray-800">
+                <button className="bg-black text-white px-5 py-2 rounded-xl hover:bg-gray-800 transition">
                     Buy Now
                 </button>
 
             </div>
 
         </div>
-    </>);
+    );
 }
