@@ -16,6 +16,7 @@ export default function ProductGrid() {
     const [products, setProducts] = useState<Product[]>([]);
     const [skip, setSkip] = useState(0);
     const [hasMore, setHasMore] = useState(true);
+    const [loading, setLoading] = useState<boolean>(true);
 
     useEffect(() => {
         setProducts([]);
@@ -25,6 +26,7 @@ export default function ProductGrid() {
 
     useEffect(() => {
         async function getProduct() {
+            setLoading(true);
             try {
                 let url = "";
 
@@ -57,11 +59,28 @@ export default function ProductGrid() {
             } catch (error) {
                 console.log(error);
             }
+            finally {
+                setLoading(false);
+            }
         }
 
         getProduct();
     }, [API, skip, query, category]);
 
+    if (loading && products.length === 0)
+        return (<p>Loading...</p>);
+    if (!loading && products.length === 0)
+        return (
+            <>
+                <div className="flex flex-col items-center lg:h-[60vh] mt-10">
+                    <p className="bg-gray-200">
+                        Product not Found
+                    </p>
+                    <span className="block bg-gray-500 lg:m-0 my-2 w-30 h-0.5"></span>
+                    <span className="block bg-gray-500 my-2 w-20 h-0.5"></span>
+                </div>  
+            </>
+        );
     return (
         <>
             <div

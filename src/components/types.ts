@@ -21,3 +21,7 @@ export interface ProductResponse {
     skip: number;
     limit: number;
 }
+export interface CartItem {
+    product: Product;
+    quantity: number;
+}

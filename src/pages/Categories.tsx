@@ -9,17 +9,26 @@ export default function Categories() {
 
     useEffect(() => {
         async function getCategories() {
-            const request = await fetch(`${API}/products?limit=0`);
-            if (!request.ok) {
-                throw new Error("Failed to fetch categories");
+            try {
+                const request = await fetch(`${API}/products?limit=0`);
+
+                if (!request.ok) {
+                    throw new Error("Failed to fetch categories");
+                }
+
+                const data: ProductResponse = await request.json();
+
+                const categoryList = data.products.map(
+                    (product) => product.category
+                );
+
+                const uniqueCategories = [...new Set(categoryList)];
+
+                setCategories(uniqueCategories);
+            } catch (error) {
+                console.error(error);
             }
-            const data: ProductResponse = await request.json();
-            const categoryList = data.products.map((product) => {
-                return product.category;
-            });
-            const uniqueCategories = [...new Set(categoryList)];
-            setCategories(uniqueCategories);
-        }
+        }   
         getCategories();
     }, []);
 
@@ -38,7 +47,7 @@ export default function Categories() {
                         <div key={index}
                             className="border rounded-xl p-5 text-center cursor-pointer hover:shadow-lg 
                                     hover:bg-gray-100"
-                            onClick={()=>navigate(`/products?category=${category}`)}>
+                            onClick={() => navigate(`/products?category=${category}`)}>
                             <p className="text-xl font-semibold">
                                 {category}
                             </p>
