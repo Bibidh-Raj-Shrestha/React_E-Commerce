@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import type { ProductResponse } from "../components/types";
+import type { ProductResponse } from "../types/types";
 
 export default function Categories() {
     const API = import.meta.env.VITE_API_URL;

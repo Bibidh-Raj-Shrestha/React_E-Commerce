@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import type {Product} from "./types";
+import type {Product} from "../types/types";
 import RatingStars from "./RatingStar";
 
 interface ProductCardProps {

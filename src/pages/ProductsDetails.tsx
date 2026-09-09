@@ -1,25 +1,25 @@
-import { useEffect, useState,useContext } from "react";
+import { useEffect, useState, useContext } from "react";
 import { useParams } from "react-router-dom";
-import { RiCashFill, RiRestartLine, RiShieldLine} from "@remixicon/react";
+import { RiCashFill, RiRestartLine, RiShieldLine } from "@remixicon/react";
 import RatingStars from "../components/RatingStar";
 import ReviewCard from "../components/ReviewCard";
-import CartContext from "../components/CartContext";
+import CartContext from "../context/CartContext";
 import QuantityCounter from "../components/QuantityCounter";
 
-import { useAuth } from "../components/AuthContext";
+import { useAuth } from "../context/AuthContext";
 
-import type { Product } from "../components/types";
+import type { Product } from "../types/types";
 
 export default function ProductsDetails() {
-    const {addToCart} = useContext(CartContext)!;
+    const { addToCart } = useContext(CartContext)!;
 
     const API = import.meta.env.VITE_API_URL;
     const { id } = useParams();
     const [product, setProduct] = useState<Product>();
     const [error, setError] = useState<string | null>(null);
-    const [quantity,setQuantity] = useState(0);
+    const [quantity, setQuantity] = useState(0);
 
-    const {isLoggedIn} = useAuth();
+    const { isLoggedIn } = useAuth();
 
     useEffect(() => {
         async function getProduct() {
@@ -42,16 +42,16 @@ export default function ProductsDetails() {
     // your existing product logic...
 
     function handleAddToCart() {
-        if (!product || !isLoggedIn ) {
-            //! navigate to login page
+        if (!product || !isLoggedIn) {
+            
             return;
         }
-        addToCart({product, quantity});
+        addToCart({ product, quantity });
         setShowPopup(true);
         setTimeout(() => {
             setShowPopup(false);
         }, 1500);
-        
+
     }
 
     if (error)
@@ -110,10 +110,10 @@ export default function ProductsDetails() {
 
                     <div className="flex items-center gap-3 my-3">
                         <span className="font-medium">Quantity:</span>
-                        <QuantityCounter quantity={quantity} 
-                                        onIncrease={()=>setQuantity(prev=>prev+1)}
-                                        onDecrease={()=>setQuantity(prev=>Math.max(0,prev-1))}/>
-                        
+                        <QuantityCounter quantity={quantity}
+                            onIncrease={() => setQuantity(prev => prev + 1)}
+                            onDecrease={() => setQuantity(prev => Math.max(0, prev - 1))} />
+
                     </div>
 
                     <div className="flex gap-2 [&_button]:rounded-xl">
@@ -123,7 +123,7 @@ export default function ProductsDetails() {
                         </button>
                         <button className="w-full sm:w-50 text-xl lg:p-3 font-semibold cursor-pointer 
                                     bg-orange-300 hover:bg-orange-400"
-                                onClick={handleAddToCart}>
+                            onClick={handleAddToCart}>
                             Add to Cart
                         </button>
                         <div
@@ -132,14 +132,12 @@ export default function ProductsDetails() {
                                 bg-black text-white
                                 px-5 py-3 rounded-xl shadow-lg
                                 transition-all duration-300
-                                ${
-                                    showPopup
-                                        ? "opacity-100 translate-x-0"
-                                        : "opacity-0 translate-x-10 pointer-events-none"
+                                ${showPopup
+                                    ? "opacity-100 translate-x-0"
+                                    : "opacity-0 translate-x-10 pointer-events-none"
                                 }
-                            `}
-                        >
-                            Item added to cart
+                            `}>
+                            Added to Cart
                         </div>
                     </div>
                 </div>

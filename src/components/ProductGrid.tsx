@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import ProductCard from "./ProductCard";
 
-import type { Product, ProductResponse } from "./types";
+import type { Product, ProductResponse } from "../types/types";
 
 export default function ProductGrid() {
     const API = import.meta.env.VITE_API_URL;

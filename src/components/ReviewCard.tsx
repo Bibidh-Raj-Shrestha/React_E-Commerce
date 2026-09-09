@@ -1,5 +1,5 @@
 import RatingStars from "./RatingStar";
-import type { Review } from "./types";
+import type { Review } from "../types/types";
 
 interface ReviewCardProps {
     review: Review;

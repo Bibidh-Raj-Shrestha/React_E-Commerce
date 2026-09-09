@@ -1,6 +1,6 @@
-import { useCart } from "../components/CartContext";
+import { useCart } from "../context/CartContext";
 import QuantityCounter from "./QuantityCounter";
-import type { CartItem } from "./types";
+import type { CartItem } from "../types/types";
 
 export default function CartCard({ product, quantity }: CartItem) {
 
