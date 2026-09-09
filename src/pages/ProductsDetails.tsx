@@ -6,8 +6,9 @@ import ReviewCard from "../components/ReviewCard";
 import CartContext from "../components/CartContext";
 import QuantityCounter from "../components/QuantityCounter";
 
-import type { Product } from "../components/types";
+import { useAuth } from "../components/AuthContext";
 
+import type { Product } from "../components/types";
 
 export default function ProductsDetails() {
     const {addToCart} = useContext(CartContext)!;
@@ -17,6 +18,8 @@ export default function ProductsDetails() {
     const [product, setProduct] = useState<Product>();
     const [error, setError] = useState<string | null>(null);
     const [quantity,setQuantity] = useState(0);
+
+    const {isLoggedIn} = useAuth();
 
     useEffect(() => {
         async function getProduct() {
@@ -39,7 +42,10 @@ export default function ProductsDetails() {
     // your existing product logic...
 
     function handleAddToCart() {
-        if (!product) return;
+        if (!product || !isLoggedIn ) {
+            //! navigate to login page
+            return;
+        }
         addToCart({product, quantity});
         setShowPopup(true);
         setTimeout(() => {

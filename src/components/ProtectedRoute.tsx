@@ -5,7 +5,7 @@ export default function ProtectedRoute({children}:{children:React.ReactNode}){
 
     if(!isLoggedIn){
         
-        return <Navigate to="/products" />
+        return <Navigate to="/"/>
     }
     
     return children;
