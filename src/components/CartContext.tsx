@@ -1,4 +1,4 @@
-import { createContext, useState } from "react";
+import { createContext, useState,useContext } from "react";
 import type { CartItem } from "./types";
 
 
@@ -6,7 +6,7 @@ import type { CartItem } from "./types";
 interface CartContextType {
     cartProducts: CartItem[];
     addToCart: (item: CartItem) => void;
-    // removeFromCart: (id: number) => void;
+    removeFromCart: (id: number) => void;
     clearCart: () => void;
 
     increaseCart: (id: number) => void;
@@ -41,11 +41,11 @@ function CartProvider({ children }: { children: React.ReactNode }) {
         });
     }
 
-    // function removeFromCart(id: number) {
-    //     setCartProducts(prev =>
-    //         prev.filter(product => product.id !== id)
-    //     );
-    // }
+    function removeFromCart(id: number) {
+        setCartProducts(prev =>
+            prev.filter(item=> item.product.id !== id)
+        );
+    }
 
     function clearCart() {
         setCartProducts([]);
@@ -60,7 +60,7 @@ function CartProvider({ children }: { children: React.ReactNode }) {
 
         setCartProducts(prev =>
             prev.map(item => {
-                return item.product.id == id ?
+                return item.product.id === id ?
                     { ...item, quantity: Math.max(1, item.quantity - 1) } : item;
             }))
     }
@@ -69,6 +69,7 @@ function CartProvider({ children }: { children: React.ReactNode }) {
         <CartContext.Provider value={{
             cartProducts,
             addToCart,
+            removeFromCart,
             clearCart,
             increaseCart,
             decreaseCart
@@ -77,6 +78,14 @@ function CartProvider({ children }: { children: React.ReactNode }) {
         </CartContext.Provider>
     );
 }
+export function useCart() {
+    const context = useContext(CartContext);
 
+    if (!context) {
+        throw new Error("useCart must be used inside CartProvider");
+    }
+
+    return context;
+}
 export { CartProvider };
 export default CartContext;

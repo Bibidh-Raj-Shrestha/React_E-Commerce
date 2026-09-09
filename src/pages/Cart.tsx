@@ -10,7 +10,7 @@ export default function Cart() {
             <p>No item currently in cart</p>
         </>)
     return (<>
-        <div className="w-full mt-5 "> 
+        <div className="w-full mt-5 flex flex-col items-center"> 
             {cartProducts.map((items) => (
                 <CartCard
                     product={items.product}

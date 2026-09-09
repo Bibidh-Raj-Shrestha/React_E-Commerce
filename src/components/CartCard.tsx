@@ -1,10 +1,20 @@
-import { useContext } from "react";
-import CartContext from "../components/CartContext";
+import { useCart } from "../components/CartContext";
 import QuantityCounter from "./QuantityCounter";
 import type { CartItem } from "./types";
 
 export default function CartCard({ product, quantity }: CartItem) {
-    const { increaseCart, decreaseCart } = useContext(CartContext)!;
+
+    const {
+        removeFromCart,
+        increaseCart,
+        decreaseCart
+    } = useCart();
+
+    const priceInNPR =
+        product.price * 140 *
+        (1 - product.discountPercentage / 100);
+
+    const totalPrice = priceInNPR * quantity;
 
     return (
         <div className="mb-5 flex flex-col sm:flex-row items-center gap-5 border rounded-2xl p-4 w-full max-w-4xl">
@@ -26,7 +36,7 @@ export default function CartCard({ product, quantity }: CartItem) {
                 </p>
 
                 <p className="text-xl font-bold mt-2">
-                    ${product.price}
+                    Rs {priceInNPR.toFixed(0)}
                 </p>
 
                 <div className="mt-4">
@@ -39,7 +49,7 @@ export default function CartCard({ product, quantity }: CartItem) {
 
             </div>
 
-            {/* Total + Buy */}
+            {/* Total + Actions */}
             <div className="flex sm:flex-col items-center sm:items-end justify-between gap-4 w-full sm:w-auto">
 
                 <div className="text-left sm:text-right">
@@ -48,12 +58,19 @@ export default function CartCard({ product, quantity }: CartItem) {
                     </p>
 
                     <p className="text-xl font-bold">
-                        $100
+                        Rs {totalPrice.toFixed(0)}
                     </p>
                 </div>
 
                 <button className="bg-black text-white px-5 py-2 rounded-xl hover:bg-gray-800 transition">
                     Buy Now
+                </button>
+
+                <button
+                    onClick={() => removeFromCart(product.id)}
+                    className="bg-red-400 text-white px-5 py-2 rounded-xl hover:bg-red-500 transition"
+                >
+                    Delete
                 </button>
 
             </div>

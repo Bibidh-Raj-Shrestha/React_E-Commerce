@@ -6,6 +6,7 @@ import Products from "./pages/Products";
 import ProductsDetails from "./pages/ProductsDetails";
 import Categories from "./pages/Categories";
 import Cart from "./pages/Cart";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 export default function App(){
   return(<>
@@ -15,7 +16,9 @@ export default function App(){
             <Route path="/products" element={<Products/>} />
             <Route path="/products/:id" element={<ProductsDetails/>} />
             <Route path="/categories" element={<Categories/>} />
-            <Route path="/cart" element={<Cart/>}/>
+            <Route path="/cart" element={<ProtectedRoute>
+                                            <Cart/>
+                                          </ProtectedRoute>}/>
           </Route>
         </Routes>
     </>);
