@@ -7,7 +7,7 @@ The project includes product browsing, search, category filtering, price sorting
 
 ## Live Demo
 
-Coming soon.
+https://brs-react-e-commerce.vercel.app/
 
 ## Features
 
