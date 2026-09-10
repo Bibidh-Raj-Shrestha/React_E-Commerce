@@ -1,4 +1,4 @@
-import { createContext, useState,useContext } from "react";
+import { createContext, useState, useContext } from "react";
 import type { CartItem } from "../types/types";
 
 
@@ -17,7 +17,9 @@ const CartContext = createContext<CartContextType | null>(null);
 
 function CartProvider({ children }: { children: React.ReactNode }) {
 
-    const [cartProducts, setCartProducts] = useState<CartItem[]>([]);
+    const local_items: CartItem[] = JSON.parse(localStorage.getItem("cartItems") || "[]");
+
+    const [cartProducts, setCartProducts] = useState<CartItem[]>(local_items ? local_items : []);
 
     function addToCart({ product, quantity }: CartItem) {
         quantity = quantity === 0 ? 1 : quantity;
@@ -37,13 +39,15 @@ function CartProvider({ children }: { children: React.ReactNode }) {
                 );
             }
 
-            return [...prev, { product, quantity }];
+            const newlist = [...prev, { product, quantity }];
+            localStorage.setItem("cartItems", JSON.stringify(newlist))
+            return newlist;
         });
     }
 
     function removeFromCart(id: number) {
         setCartProducts(prev =>
-            prev.filter(item=> item.product.id !== id)
+            prev.filter(item => item.product.id !== id)
         );
     }
 
