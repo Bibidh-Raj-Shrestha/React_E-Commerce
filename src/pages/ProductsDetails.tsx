@@ -1,10 +1,11 @@
 import { useEffect, useState, useContext } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { RiCashFill, RiRestartLine, RiShieldLine } from "@remixicon/react";
 import RatingStars from "../components/RatingStar";
 import ReviewCard from "../components/ReviewCard";
 import CartContext from "../context/CartContext";
 import QuantityCounter from "../components/QuantityCounter";
+import LoginRequired from "../components/LoginRequired";
 
 import { useAuth } from "../context/AuthContext";
 
@@ -12,6 +13,7 @@ import type { Product } from "../types/types";
 
 export default function ProductsDetails() {
     const { addToCart } = useContext(CartContext)!;
+    const navigate = useNavigate();
 
     const API = import.meta.env.VITE_API_URL;
     const { id } = useParams();
@@ -37,13 +39,14 @@ export default function ProductsDetails() {
         getProduct();
     }, [id]);
 
-    const [showPopup, setShowPopup] = useState(false);
+    const [showPopup, setShowPopup] = useState<boolean>(false);
+    const [checkLog, setCheckLog] = useState<boolean>(false);
 
     // your existing product logic...
 
     function handleAddToCart() {
         if (!product || !isLoggedIn) {
-            
+            setCheckLog(true);
             return;
         }
         addToCart({ product, quantity });
@@ -118,7 +121,8 @@ export default function ProductsDetails() {
 
                     <div className="flex gap-2 [&_button]:rounded-xl">
                         <button className="w-full sm:w-50 text-xl p-2 lg:p-3 font-semibold cursor-pointer
-                                    bg-blue-300 hover:bg-blue-400">
+                                    bg-blue-300 hover:bg-blue-400"
+                            onClick={() => isLoggedIn ? navigate("/cart") : setCheckLog(true)}>
                             Buy Now
                         </button>
                         <button className="w-full sm:w-50 text-xl lg:p-3 font-semibold cursor-pointer 
@@ -139,9 +143,15 @@ export default function ProductsDetails() {
                             `}>
                             Added to Cart
                         </div>
+                        <LoginRequired
+                            open={checkLog}
+                            onClose={() => setCheckLog(false)}
+                            onLogin={() => navigate("/login")}
+                            onRegister={() => navigate("/register")}
+                        />
                     </div>
-                </div>
 
+                </div>
             </div>
         </div>
         <div className="w-full lg:w-[78%] flex flex-col mt-10 p-2 border rounded-xl">

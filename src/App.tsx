@@ -7,6 +7,8 @@ import ProductsDetails from "./pages/ProductsDetails";
 import Categories from "./pages/Categories";
 import Cart from "./pages/Cart";
 import ProtectedRoute from "./components/ProtectedRoute";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
 
 export default function App(){
   return(<>
@@ -19,6 +21,8 @@ export default function App(){
             <Route path="/cart" element={<ProtectedRoute>
                                             <Cart/>
                                           </ProtectedRoute>}/>
+            <Route path="/login" element={<Login/>}/>
+            <Route path="/register" element={<Register/>}/>
           </Route>
         </Routes>
     </>);
