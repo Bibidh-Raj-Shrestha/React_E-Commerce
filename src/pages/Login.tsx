@@ -18,6 +18,7 @@ export default function Login() {
             login();
             setEmail("");
             setPassword("");
+            navigate("/");
         }
         else{
             console.log("invalid");

@@ -7,9 +7,10 @@ import { useAuth } from "../context/AuthContext";
 
 export default function Navbar() {
     const navigate = useNavigate();
-    const { isLoggedIn } = useAuth();
+    const { isLoggedIn,logout } = useAuth();
 
     const [checkLog, setCheckLog] = useState(false);
+    const [showProfile, setShowProfile] = useState(false);
 
     function handleCartClick() {
         if (isLoggedIn) {
@@ -39,9 +40,42 @@ export default function Navbar() {
                     <RiShoppingCart2Line className="block group-hover:hidden" />
                     <RiShoppingCart2Fill className="hidden group-hover:block" />
                 </button>
-                <span className="hidden lg:block">
-                    <RiUser2Line />
-                </span>
+                <div className="relative hidden lg:block mt-2">
+                    <button
+                        onClick={() => setShowProfile(prev => !prev)}
+                        className="cursor-pointer"
+                    >
+                        <RiUser2Line />
+                    </button>
+
+                    {showProfile && (
+                        <div className="absolute right-0 top-10 w-28 bg-white border rounded-xl shadow-lg p-2">
+                            {isLoggedIn ? (
+                                <button
+                                    onClick={() => {
+                                        logout();
+                                        setShowProfile(false);
+                                    }}
+                                    className="w-full p-2 rounded-lg bg-black hover:bg-gray-700 text-center
+                                                text-white"
+                                >
+                                    Logout
+                                </button>
+                            ) : (
+                                <button
+                                    onClick={() => {
+                                        navigate("/login");
+                                        setShowProfile(false);
+                                    }}
+                                    className="w-full p-2 rounded-lg bg-black hover:bg-gray-700 text-center 
+                                                text-white"
+                                >
+                                    Login
+                                </button>
+                            )}
+                        </div>
+                    )}
+                </div>
             </div>
         </header>
 
@@ -76,7 +110,8 @@ export default function Navbar() {
             onClose={() => setCheckLog(false)}
             onLogin={() => {
                 setCheckLog(false);
-                navigate("/login")}}
+                navigate("/login")
+            }}
             onRegister={() => navigate("/register")}
         />
     </>)
