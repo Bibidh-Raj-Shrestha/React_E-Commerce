@@ -1,5 +1,11 @@
 import { NavLink, useNavigate } from "react-router-dom";
-import { RiShoppingCart2Fill, RiShoppingCart2Line, RiShoppingBag2Line, RiUser2Line, RiHome2Line } from "@remixicon/react";
+import {
+    RiShoppingCart2Fill,
+    RiShoppingCart2Line,
+    RiShoppingBag2Line,
+    RiUser2Line,
+    RiHome2Line
+} from "@remixicon/react";
 import Search from "./Search";
 import LoginRequired from "./LoginRequired";
 import { useState } from "react";
@@ -7,7 +13,7 @@ import { useAuth } from "../context/AuthContext";
 
 export default function Navbar() {
     const navigate = useNavigate();
-    const { isLoggedIn,logout } = useAuth();
+    const { isLoggedIn, logout } = useAuth();
 
     const [checkLog, setCheckLog] = useState(false);
     const [showProfile, setShowProfile] = useState(false);
@@ -19,45 +25,150 @@ export default function Navbar() {
             setCheckLog(true);
         }
     }
-    return (<>
-        <header className="fixed top-0 left-0 w-full z-50 flex justify-between border-b p-3 bg-white">
-            <div className="hidden lg:block">
-                <h1 className="">logo</h1>
-            </div>
-            <nav className="lg:hidden w-[80%]">
-                <Search />
-            </nav>
-            <nav className="hidden w-100 lg:flex justify-around ml-10">
-                <NavLink to="/" end className="hover:bg-gray-400 p-2 rounded-2xl">Home</NavLink>
-                <NavLink to="/products" className="hover:bg-gray-400 p-2 rounded-2xl">Products</NavLink>
-                <NavLink to="/categories" className="hover:bg-gray-400 p-2 rounded-2xl">Categories</NavLink>
-            </nav>
-            <div className="flex gap-5 pr-2 lg:pr-4 items-center">
+
+    return (
+        <>
+            {/* Desktop / Mobile Top Navbar */}
+            <header className="fixed top-0 left-0 w-full z-50 flex items-center justify-between border-b p-3 bg-white">
+
+                {/* Logo */}
+                <div className="hidden lg:block shrink-0">
+                    <img
+                        src="/logo.png"
+                        alt="Logo"
+                        className="h-10 w-auto object-contain"
+                    />
+                </div>
+
+                {/* Mobile Search */}
+                <nav className="lg:hidden w-[75%] sm:w-[80%]">
+                    <Search />
+                </nav>
+
+                {/* Desktop Navigation */}
+                <nav className="hidden lg:flex w-100 justify-around ml-10">
+                    <NavLink
+                        to="/"
+                        end
+                        className="hover:bg-gray-400 p-2 rounded-2xl"
+                    >
+                        Home
+                    </NavLink>
+
+                    <NavLink
+                        to="/products"
+                        className="hover:bg-gray-400 p-2 rounded-2xl"
+                    >
+                        Products
+                    </NavLink>
+
+                    <NavLink
+                        to="/categories"
+                        className="hover:bg-gray-400 p-2 rounded-2xl"
+                    >
+                        Categories
+                    </NavLink>
+                </nav>
+
+                {/* Desktop Actions */}
+                <div className="flex gap-5 pr-2 lg:pr-4 items-center">
+
+                    {/* Cart */}
+                    <button
+                        onClick={handleCartClick}
+                        className="group cursor-pointer flex justify-center items-center"
+                    >
+                        <RiShoppingCart2Line className="block group-hover:hidden" />
+                        <RiShoppingCart2Fill className="hidden group-hover:block" />
+                    </button>
+
+                    {/* Desktop Profile */}
+                    <div className="relative hidden lg:block">
+                        <button
+                            onClick={() => setShowProfile(prev => !prev)}
+                            className="cursor-pointer"
+                        >
+                            <RiUser2Line />
+                        </button>
+
+                        {showProfile && (
+                            <div className="absolute right-0 top-10 w-28 bg-white border rounded-xl shadow-lg p-2">
+                                {isLoggedIn ? (
+                                    <button
+                                        onClick={() => {
+                                            logout();
+                                            setShowProfile(false);
+                                        }}
+                                        className="w-full p-2 rounded-lg bg-black hover:bg-gray-700 text-center text-white"
+                                    >
+                                        Logout
+                                    </button>
+                                ) : (
+                                    <button
+                                        onClick={() => {
+                                            navigate("/login");
+                                            setShowProfile(false);
+                                        }}
+                                        className="w-full p-2 rounded-lg bg-black hover:bg-gray-700 text-center text-white"
+                                    >
+                                        Login
+                                    </button>
+                                )}
+                            </div>
+                        )}
+                    </div>
+
+                </div>
+            </header>
+
+
+            {/* Mobile Bottom Navigation */}
+            <footer className="lg:hidden fixed bottom-0 left-0 z-50 flex w-full justify-around items-center border-t bg-white p-2">
+
+                {/* Home */}
+                <NavLink
+                    to="/"
+                    end
+                    className="p-2"
+                >
+                    <RiHome2Line />
+                </NavLink>
+
+                {/* Products */}
+                <NavLink
+                    to="/products"
+                    className="p-2"
+                >
+                    <RiShoppingBag2Line />
+                </NavLink>
+
+                {/* Cart */}
                 <button
                     onClick={handleCartClick}
-                    className="group cursor-pointer flex justify-center items-center"
+                    className="group cursor-pointer p-2"
                 >
                     <RiShoppingCart2Line className="block group-hover:hidden" />
                     <RiShoppingCart2Fill className="hidden group-hover:block" />
                 </button>
-                <div className="relative hidden lg:block mt-2">
+
+                {/* Mobile Profile */}
+                <div className="relative">
                     <button
                         onClick={() => setShowProfile(prev => !prev)}
-                        className="cursor-pointer"
+                        className="cursor-pointer p-2"
                     >
                         <RiUser2Line />
                     </button>
 
                     {showProfile && (
-                        <div className="absolute right-0 top-10 w-28 bg-white border rounded-xl shadow-lg p-2">
+                        <div className="absolute right-0 bottom-12 w-28 bg-white border rounded-xl shadow-lg p-2">
                             {isLoggedIn ? (
                                 <button
                                     onClick={() => {
                                         logout();
                                         setShowProfile(false);
                                     }}
-                                    className="w-full p-2 rounded-lg bg-black hover:bg-gray-700 text-center
-                                                text-white"
+                                    className="w-full p-2 rounded-lg bg-black hover:bg-gray-700 text-center text-white"
                                 >
                                     Logout
                                 </button>
@@ -67,8 +178,7 @@ export default function Navbar() {
                                         navigate("/login");
                                         setShowProfile(false);
                                     }}
-                                    className="w-full p-2 rounded-lg bg-black hover:bg-gray-700 text-center 
-                                                text-white"
+                                    className="w-full p-2 rounded-lg bg-black hover:bg-gray-700 text-center text-white"
                                 >
                                     Login
                                 </button>
@@ -76,43 +186,20 @@ export default function Navbar() {
                         </div>
                     )}
                 </div>
-            </div>
-        </header>
 
-        <footer className="z-50 lg:hidden flex fixed bottom-0 bg-white w-full border-t p-2 justify-around">
-            <NavLink to="/" end>
-                <RiHome2Line />
-            </NavLink>
-            <NavLink to="/products">
-                <RiShoppingBag2Line />
-            </NavLink>
-            <div className="flex gap-5 pr-2 lg:pr-4 items-center">
+            </footer>
 
-                <button
-                    onClick={handleCartClick}
-                    className="group cursor-pointer"
-                >
-                    <RiShoppingCart2Line className="block group-hover:hidden" />
-                    <RiShoppingCart2Fill className="hidden group-hover:block" />
-                </button>
 
-                <span className="hidden lg:block">
-                    <RiUser2Line />
-                </span>
-
-            </div>
-            <NavLink to="">
-                <RiUser2Line />
-            </NavLink>
-        </footer>
-        <LoginRequired
-            open={checkLog}
-            onClose={() => setCheckLog(false)}
-            onLogin={() => {
-                setCheckLog(false);
-                navigate("/login")
-            }}
-            onRegister={() => navigate("/register")}
-        />
-    </>)
+            {/* Login Required */}
+            <LoginRequired
+                open={checkLog}
+                onClose={() => setCheckLog(false)}
+                onLogin={() => {
+                    setCheckLog(false);
+                    navigate("/login");
+                }}
+                onRegister={() => navigate("/register")}
+            />
+        </>
+    );
 }

@@ -17,29 +17,23 @@ export default function CartCard({ product, quantity }: CartItem) {
     const totalPrice = priceInNPR * quantity;
 
     return (
-        <div className="mb-5 flex flex-col sm:flex-row items-center gap-5 border rounded-2xl p-4 w-full max-w-4xl">
+        <div className="mb-5 flex flex-col sm:flex-row items-center gap-4 sm:gap-5 border rounded-2xl p-3 sm:p-4 w-full max-w-4xl">
 
-            {/* Product Image */}
             <div className="shrink-0">
-                <img
-                    src={product.images[0]}
-                    alt={product.title}
-                    className="w-32 h-32 sm:w-36 sm:h-36 object-contain rounded-xl"
-                />
+                <img src={product.images[0]} alt={product.title} className="w-28 h-28 sm:w-36 sm:h-36 object-contain rounded-xl" />
             </div>
 
-            {/* Product Information */}
-            <div className="flex flex-col flex-1 w-full sm:w-auto">
+            <div className="flex flex-col flex-1 w-full sm:w-auto text-center sm:text-left">
 
-                <p className="text-lg font-semibold line-clamp-2">
+                <p className="text-base sm:text-lg font-semibold line-clamp-2">
                     {product.title}
                 </p>
 
-                <p className="text-xl font-bold mt-2">
+                <p className="text-lg sm:text-xl font-bold mt-2">
                     Rs {priceInNPR.toFixed(0)}
                 </p>
 
-                <div className="mt-4">
+                <div className="mt-3 sm:mt-4 flex justify-center sm:justify-start">
                     <QuantityCounter
                         quantity={quantity}
                         onIncrease={() => increaseCart(product.id)}
@@ -49,29 +43,27 @@ export default function CartCard({ product, quantity }: CartItem) {
 
             </div>
 
-            {/* Total + Actions */}
-            <div className="flex sm:flex-col items-center sm:items-end justify-between gap-4 w-full sm:w-auto">
+            <div className="flex flex-col items-center sm:items-end gap-3 w-full sm:w-auto">
 
-                <div className="text-left sm:text-right">
+                <div className="text-center sm:text-right">
                     <p className="text-sm text-gray-500">
                         Total
                     </p>
 
-                    <p className="text-xl font-bold">
+                    <p className="text-lg sm:text-xl font-bold">
                         Rs {totalPrice.toFixed(0)}
                     </p>
                 </div>
 
-                <button className="bg-black text-white px-5 py-2 rounded-xl hover:bg-gray-800 transition">
-                    Buy Now
-                </button>
+                <div className="flex gap-2 w-full sm:w-auto">
+                    <button className="flex-1 sm:flex-none bg-black text-white px-4 sm:px-5 py-2 rounded-xl hover:bg-gray-800 transition">
+                        Buy Now
+                    </button>
 
-                <button
-                    onClick={() => removeFromCart(product.id)}
-                    className="bg-red-400 text-white px-5 py-2 rounded-xl hover:bg-red-500 transition"
-                >
-                    Delete
-                </button>
+                    <button onClick={() => removeFromCart(product.id)} className="flex-1 sm:flex-none bg-red-400 text-white px-4 sm:px-5 py-2 rounded-xl hover:bg-red-500 transition">
+                        Delete
+                    </button>
+                </div>
 
             </div>
 
