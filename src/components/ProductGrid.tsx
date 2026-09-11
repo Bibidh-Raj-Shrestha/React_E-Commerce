@@ -1,10 +1,16 @@
+// ProductGrid.tsx
+
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import ProductCard from "./ProductCard";
 
 import type { Product, ProductResponse } from "../types/types";
 
-export default function ProductGrid() {
+type ProductGridProps = {
+    sort?: string;
+};
+
+export default function ProductGrid({sort = "default"}: ProductGridProps) {
     const API = import.meta.env.VITE_API_URL;
     const limit = 12;
 
@@ -47,7 +53,7 @@ export default function ProductGrid() {
 
                 const data: ProductResponse = await request.json();
 
-                setProducts(prev => {
+                setProducts((prev) => {
                     if (skip === 0) {
                         return data.products;
                     }
@@ -55,18 +61,31 @@ export default function ProductGrid() {
                     return [...prev, ...data.products];
                 });
 
-                setHasMore(skip + data.products.length < data.total);
-
+                setHasMore(
+                    skip + data.products.length < data.total
+                );
             } catch (error) {
                 console.log(error);
-            }
-            finally {
+            } finally {
                 setLoading(false);
             }
         }
 
         getProduct();
     }, [API, skip, query, category]);
+
+    // Sort the already-fetched products.
+    const sortedProducts = [...products].sort((a, b) => {
+        if (sort === "low-high") {
+            return a.price - b.price;
+        }
+
+        if (sort === "high-low") {
+            return b.price - a.price;
+        }
+
+        return 0;
+    });
 
     if (loading && products.length === 0)
         return <p className="p-5">Loading...</p>;
@@ -87,26 +106,25 @@ export default function ProductGrid() {
     return (
         <>
             <div
-                className=" grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-5 w-full px-3 sm:px-5 
-                    lg:px-0 mt-6 sm:mt-8 mb-8 sm:mb-10
-                "
+                className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 
+                gap-3 sm:gap-5 w-full px-3 sm:px-5 lg:px-0 mt-6 sm:mt-8 mb-8 sm:mb-10"
             >
-                {products.map((product) => (
+                {sortedProducts.map((product) => (
                     <ProductCard
                         key={product.id}
                         product={product}
                     />
                 ))}
-            </div> 
+            </div>
+
             <div className="w-full flex justify-center px-4 mb-8">
                 {hasMore && (
                     <button
-                        className=" border w-full sm:w-auto sm:min-w-60 lg:min-w-80 p-3 text-lg sm:text-xl 
-                        lg:text-2xl font-semibold cursor-pointer  bg-blue-50  hover:bg-blue-100 rounded-xl 
-                        transition
-                        "
+                        className="border w-full sm:w-auto sm:min-w-60 lg:min-w-80 p-3 
+                        text-lg sm:text-xl lg:text-2xl font-semibold cursor-pointer 
+                        bg-blue-50 hover:bg-blue-100 rounded-xl transition"
                         onClick={() =>
-                            setSkip(prev => prev + limit)
+                            setSkip((prev) => prev + limit)
                         }
                     >
                         Load More
